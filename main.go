@@ -72,17 +72,19 @@ func renderPosition(pos int) string {
 	return " "
 }
 
-func renderBoard(output *os.File, board []int) {
+func renderBoard(board []int) string {
+	screen := ""
 	row := 0
 	for _, pos := range board {
 		if row == 2 {
 			row = 0
-			fmt.Fprintln(output, renderPosition(pos))
+			screen = screen + renderPosition(pos) + "\n"
 		} else {
 			row++
-			fmt.Fprint(output, renderPosition(pos))
+			screen = screen + renderPosition(pos)
 		}
 	}
+	return screen
 }
 
 func makeMove(value int, pos int, board []int) bool {
@@ -101,7 +103,7 @@ func loop(input *os.File, output *os.File, board []int, wins [][]int) {
 	move := 0
 	winner := 0
 	for {
-		renderBoard(output, board)
+		fmt.Fprintln(output, renderBoard(board))
 		winner = testForWin(board, wins)
 		if winner == 1 {
 			fmt.Fprintln(output, "O Wins!")
