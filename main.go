@@ -1,6 +1,8 @@
 package main
+
 import (
 	"fmt"
+	"os"
 )
 
 // 012
@@ -23,6 +25,19 @@ func getWins() [][]int {
 	}
 }
 
+func canMove(board []int) bool {
+	count := 0
+	for _, v := range board {
+		if v > 0 {
+			count++
+		}
+	}
+	if count == 9 {
+		return false
+	}
+	return true
+}
+
 // 0 == No win
 // 1 == O Wins
 // 2 == X Wins
@@ -37,9 +52,9 @@ func testForWin(board []int, wins [][]int) int {
 			if player > 0 && player == board[pos] {
 				count++
 			}
-		}
-		if count == 3 {
-			return player
+			if count == 3 {
+				return player
+			}
 		}
 		player = 0
 		count = 0
@@ -57,20 +72,23 @@ func renderPosition(pos int) string {
 	return " "
 }
 
-func renderBoard(board []int) {
+func renderBoard(output *os.File, board []int) {
 	row := 0
 	for _, pos := range board {
 		if row == 2 {
 			row = 0
-			fmt.Println(renderPosition(pos))
+			fmt.Fprintln(output, renderPosition(pos))
 		} else {
 			row++
-			fmt.Print(renderPosition(pos))
+			fmt.Fprint(output, renderPosition(pos))
 		}
 	}
 }
 
 func makeMove(value int, pos int, board []int) bool {
+	if value < 1 || value > 2 {
+		return false
+	}
 	if pos >= len(board) || board[pos] > 0 {
 		return false
 	}
@@ -78,33 +96,37 @@ func makeMove(value int, pos int, board []int) bool {
 	return true
 }
 
-func loop(board []int, wins [][]int) {
+func loop(input *os.File, output *os.File, board []int, wins [][]int) {
 	turn := false
 	move := 0
 	winner := 0
 	for {
-		renderBoard(board)
+		renderBoard(output, board)
 		winner = testForWin(board, wins)
 		if winner == 1 {
-			fmt.Println("O Wins!")
+			fmt.Fprintln(output, "O Wins!")
 			return
 		}
 		if winner == 2 {
-			fmt.Println("X Wins!")
+			fmt.Fprintln(output, "X Wins!")
+			return
+		}
+		if canMove(board) == false {
+			fmt.Fprintln(output, "Draw!")
 			return
 		}
 		if turn == false {
 			for turn == false {
-				fmt.Print("O: ")
-				fmt.Scanf("%d", &move)
+				fmt.Fprint(output, "O: ")
+				fmt.Fscanf(input, "%d", &move)
 				if makeMove(1, move, board) {
 					turn = true
 				}
 			}
 		} else {
 			for turn {
-				fmt.Print("X: ")
-				fmt.Scanf("%d", &move)
+				fmt.Fprint(output, "X: ")
+				fmt.Fscanf(input, "%d", &move)
 				if makeMove(2, move, board) {
 					turn = false
 				}
@@ -114,5 +136,5 @@ func loop(board []int, wins [][]int) {
 }
 
 func main() {
-	loop(getBoard(), getWins())
+	loop(os.Stdin, os.Stdout, getBoard(), getWins())
 }
