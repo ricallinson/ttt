@@ -76,12 +76,11 @@ func renderBoard(board []int) string {
 	screen := ""
 	row := 0
 	for _, pos := range board {
-		if row == 2 {
+		screen = screen + renderPosition(pos)
+		row++
+		if row == 3 {
 			row = 0
-			screen = screen + renderPosition(pos) + "\n"
-		} else {
-			row++
-			screen = screen + renderPosition(pos)
+			screen = screen + "\n"
 		}
 	}
 	return screen
