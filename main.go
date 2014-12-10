@@ -116,7 +116,7 @@ func loop(input *os.File, output *os.File, board []int, wins [][]int) {
 			fmt.Fprintln(output, "Draw!")
 			return
 		}
-		if turn == false {
+		if turn == false { // O's turn
 			for turn == false {
 				fmt.Fprint(output, "O: ")
 				fmt.Fscanf(input, "%d", &move)
@@ -124,7 +124,7 @@ func loop(input *os.File, output *os.File, board []int, wins [][]int) {
 					turn = true
 				}
 			}
-		} else {
+		} else { // X's turn
 			for turn {
 				fmt.Fprint(output, "X: ")
 				fmt.Fscanf(input, "%d", &move)
