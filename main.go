@@ -97,6 +97,10 @@ func makeMove(value int, pos int, board []int) bool {
 	return true
 }
 
+func iterate(value int, pos int, board []int, wins [][]int) {
+
+}
+
 func loop(input *os.File, output *os.File, board []int, wins [][]int) {
 	turn := false
 	move := 0
