@@ -94,8 +94,8 @@ func (this *Game) Move(player uint8, x int, y int) (bool, error) {
 	return this.Place(player, pos)
 }
 
-func (this *Game) Board() string {
-	return string(this.board)
+func (this *Game) Board() []byte {
+	return this.board
 }
 
 func (this *Game) Player() uint8 {
