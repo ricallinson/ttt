@@ -44,6 +44,16 @@ func TestGame(t *testing.T) {
 			win, _ := g.Move(O, 1, 3)
 			AssertEqual(win, true)
 		})
+		It("should return o as the winner diagonally", func() {
+			g := CreateGame()
+			g.Place(O, 1)
+			g.Place(X, 2)
+			g.Place(O, 3)
+			g.Place(X, 4)
+			g.Place(O, 5)
+			win, _ := g.Place(X, 6)
+			AssertEqual(win, true)
+		})
 		It("should return x as a false move", func() {
 			g := CreateGame()
 			g.Move(O, 1, 1)
