@@ -26,6 +26,24 @@ func TestGame(t *testing.T) {
 			_, win := g.Move('o', 3, 1)
 			AssertEqual(win, true)
 		})
+		It("should return x as the winner again", func() {
+			g := CreateGame()
+			g.Move('x', 1, 1)
+			g.Move('o', 1, 3)
+			g.Move('x', 2, 2)
+			g.Move('o', 2, 3)
+			_, win := g.Move('x', 3, 3)
+			AssertEqual(win, true)
+		})
+		It("should return o as the winner again", func() {
+			g := CreateGame()
+			g.Move('o', 3, 1)
+			g.Move('x', 2, 1)
+			g.Move('o', 2, 2)
+			g.Move('x', 2, 3)
+			_, win := g.Move('o', 1, 3)
+			AssertEqual(win, true)
+		})
 		It("should return x as a false move", func() {
 			g := CreateGame()
 			g.Move('o', 1, 1)
@@ -57,7 +75,7 @@ func TestGame(t *testing.T) {
 			move, _ := g.Move('x', 1, 10)
 			AssertEqual(move, false)
 		})
-		It("should return false as same player is not allowed", func() {
+		It("should return false as same player is not allowed in a row", func() {
 			g := CreateGame()
 			g.Move('x', 1, 1)
 			move, _ := g.Move('x', 1, 2)
