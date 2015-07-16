@@ -6,7 +6,7 @@ import (
 )
 
 type Game struct {
-	Board      []byte
+	board      []byte
 	lastPlayer uint8
 }
 
@@ -35,13 +35,13 @@ var wins = map[uint8][]string{
 
 func CreateGame() *Game {
 	return &Game{
-		Board: []byte("         "),
+		board: []byte("         "),
 	}
 }
 
 // Place the given player at the provided position if it is available.
 func (this *Game) Place(player uint8, pos int) (bool, bool) {
-	if this.Board[pos] != ' ' {
+	if this.board[pos] != ' ' {
 		// log.Println("Position taken", pos)
 		return false, false
 	}
@@ -54,9 +54,9 @@ func (this *Game) Place(player uint8, pos int) (bool, bool) {
 		return false, false
 	}
 	this.lastPlayer = player
-	this.Board[pos] = player
+	this.board[pos] = player
 	for _, w := range wins[player] {
-		ok, _ := regexp.Match(w, this.Board)
+		ok, _ := regexp.Match(w, this.board)
 		if ok {
 			return true, true
 		}
@@ -81,4 +81,8 @@ func (this *Game) Move(player uint8, x int, y int) (bool, bool) {
 		return false, false
 	}
 	return this.Place(player, pos)
+}
+
+func (this *Game) Board() string {
+	return string(this.board)
 }
