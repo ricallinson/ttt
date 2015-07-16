@@ -85,6 +85,16 @@ func TestGame(t *testing.T) {
 			move, _ := g.Move(X, 1, 10)
 			AssertEqual(move, false)
 		})
+		It("should return false low position", func() {
+			g := CreateGame()
+			move, _ := g.Place(X, -1)
+			AssertEqual(move, false)
+		})
+		It("should return false high position", func() {
+			g := CreateGame()
+			move, _ := g.Place(X, 9)
+			AssertEqual(move, false)
+		})
 		It("should return false as same player is not allowed in a row", func() {
 			g := CreateGame()
 			g.Move(X, 1, 1)

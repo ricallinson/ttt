@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-const(
+const (
 	X = 'x'
 	O = 'o'
 )
@@ -58,6 +58,9 @@ func CreateGame() *Game {
 
 // Place the given player at the provided position if it is available.
 func (this *Game) Place(player uint8, pos int) (bool, error) {
+	if pos < 0 || pos > 8 {
+		return false, errors.New("Bad position")
+	}
 	if this.board[pos] != ' ' {
 		return false, errors.New("Position taken")
 	}
@@ -87,9 +90,6 @@ func (this *Game) Move(player uint8, x int, y int) (bool, error) {
 		pos = x + y
 	case 3:
 		pos = x + y + 2
-	}
-	if pos < 0 || pos > 8 {
-		return false, errors.New("Bad position")
 	}
 	return this.Place(player, pos)
 }
