@@ -14,7 +14,7 @@ func TestGame(t *testing.T) {
 			g.Move('o', 1, 3)
 			g.Move('x', 2, 1)
 			g.Move('o', 2, 3)
-			_, win := g.Move('x', 3, 1)
+			win, _ := g.Move('x', 3, 1)
 			AssertEqual(win, true)
 		})
 		It("should return o as the winner", func() {
@@ -23,7 +23,7 @@ func TestGame(t *testing.T) {
 			g.Move('x', 1, 3)
 			g.Move('o', 2, 1)
 			g.Move('x', 2, 3)
-			_, win := g.Move('o', 3, 1)
+			win, _ := g.Move('o', 3, 1)
 			AssertEqual(win, true)
 		})
 		It("should return x as the winner again", func() {
@@ -32,7 +32,7 @@ func TestGame(t *testing.T) {
 			g.Move('o', 1, 3)
 			g.Move('x', 2, 2)
 			g.Move('o', 2, 3)
-			_, win := g.Move('x', 3, 3)
+			win, _ := g.Move('x', 3, 3)
 			AssertEqual(win, true)
 		})
 		It("should return o as the winner again", func() {
@@ -41,7 +41,7 @@ func TestGame(t *testing.T) {
 			g.Move('x', 2, 1)
 			g.Move('o', 2, 2)
 			g.Move('x', 2, 3)
-			_, win := g.Move('o', 1, 3)
+			win, _ := g.Move('o', 1, 3)
 			AssertEqual(win, true)
 		})
 		It("should return x as a false move", func() {
