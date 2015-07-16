@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-const(
+const (
 	X = 'x'
 	O = 'o'
 )
@@ -15,38 +15,23 @@ type Game struct {
 	lastPlayer uint8
 }
 
-var win = map[uint8][]*regexp.Regexp{}
+var win = []*regexp.Regexp{}
 
 func init() {
-	checks := map[uint8][]string{
-		X: []string{
-			"xxx......",
-			"...xxx...",
-			"......xxx",
-			"x..x..x..",
-			".x..x..x.",
-			"..x..x..x",
-			"x...x...x",
-			"..x.x.x..",
-		},
-		O: []string{
-			"ooo......",
-			"...ooo...",
-			"......ooo",
-			"o..o..o..",
-			".o..o..o.",
-			"..o..o..o",
-			"o...o...o",
-			"..o.o.o..",
-		},
+	// Compile regex to find winning move.
+	checks := []string{
+		"[xo][xo][xo]......",
+		"...[xo][xo][xo]...",
+		"......[xo][xo][xo]",
+		"[xo]..[xo]..[xo]..",
+		".[xo]..[xo]..[xo].",
+		"..[xo]..[xo]..[xo]",
+		"[xo]...[xo]...[xo]",
+		"..[xo].[xo].[xo]..",
 	}
-	for _, w := range checks[X] {
+	for _, w := range checks {
 		regex, _ := regexp.Compile(w)
-		win[X] = append(win[X], regex)
-	}
-	for _, w := range checks[O] {
-		regex, _ := regexp.Compile(w)
-		win[O] = append(win[O], regex)
+		win = append(win, regex)
 	}
 }
 
@@ -69,7 +54,7 @@ func (this *Game) Place(player uint8, pos int) (bool, error) {
 	}
 	this.lastPlayer = player
 	this.board[pos] = player
-	for _, w := range win[player] {
+	for _, w := range win {
 		if w.Match(this.board) {
 			return true, nil
 		}
