@@ -11,6 +11,7 @@ const (
 )
 
 type Game struct {
+	moves      int
 	board      []byte
 	lastPlayer uint8
 }
@@ -70,6 +71,7 @@ func (this *Game) Place(player uint8, pos int) (bool, error) {
 	if player == this.lastPlayer {
 		return false, errors.New("Wrong player")
 	}
+	this.moves++
 	this.lastPlayer = player
 	this.board[pos] = player
 	for _, w := range win[player] {
@@ -103,4 +105,11 @@ func (this *Game) Player() uint8 {
 		return O
 	}
 	return X
+}
+
+func (this *Game) Draw() bool {
+	if this.moves > 8 {
+		return true
+	}
+	return false
 }
